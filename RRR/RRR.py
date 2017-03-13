@@ -41,7 +41,7 @@ def workspace():
 
     x = []
     y = []
-
+    alpha = plt.figure()
     for i in range(int(q1_st), int(q1_end)):
         for j in range(int(q2_st), int(q2_end)):
             for k in range(int(q3_st), int(q3_end)):
@@ -50,11 +50,10 @@ def workspace():
 
     plt.plot([-1, 1], [0, 0], 'r', linewidth=2.0)
     plt.plot([0, 0], [-1, 1], 'r', linewidth=2.0)
-    plt.plot(x, y, 'b.')
-
     plt.grid(True, which='both')
-    plt.show()
+    plt.plot(x, y, "c.")
 
+    plt.show()
 
 
 def gui():
@@ -66,11 +65,13 @@ def gui():
 
     button1 = Button(topframe, text="DrawWorkSpace", fg="red", command=workspace)
     button1.pack(side=LEFT)
-    #button1.bind("<Button-1>", workspace)
+    # button1.bind("<Button-1>", workspace)
 
 
     shehabgui.mainloop()
     exit()
+
+
 gui()
 
 '''
