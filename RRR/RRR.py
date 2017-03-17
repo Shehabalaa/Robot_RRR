@@ -17,7 +17,7 @@ def workspace():
     l1 = 0.0
     l2 = 8.0
     l3 = .0
-
+    accuracy=0
     f = open("Data.txt", "r")
 
     l1 = f.readline()
@@ -38,33 +38,56 @@ def workspace():
     q3_st = float(q3_st)
     q3_end = f.readline()
     q3_end = float(q3_end)
-    if abs(q1_end - q1_st) >= 180:
+    accuracy= f.readline()
+    accuracy = int(accuracy)
+
+    range1=1
+    range2=1
+    range3=1
+    if(accuracy==1):
+        if abs(q1_end - q1_st) >= 180:
+            range1 = abs(q1_end - q1_st) / 60
+        elif abs(q1_end - q1_st) >= 90:
+            range1 = abs(q1_end - q1_st) / 45
+        elif abs(q1_end - q1_st) >= 30:
+            range1 = abs(q1_end - q1_st) / 20
+        else:
+            range1 = 1
+
+        if abs(q2_end - q2_st) >= 180:
+            range2 = abs(q2_end - q2_st) / 60
+        elif abs(q2_end - q2_st) >= 90:
+            range2 = abs(q2_end - q2_st) / 45
+        elif abs(q2_end - q2_st) >= 30:
+            range2 = abs(q2_end - q2_st) / 20
+        else:
+            range2 = 1
+
+        if abs(q3_end - q3_st) >= 180:
+            range3 = abs(q3_end - q3_st) / 60
+        elif abs(q3_end - q3_st) >= 90:
+            range3 = abs(q3_end - q3_st) / 45
+        elif abs(q3_end - q3_st) >= 30:
+            range3 = abs(q3_end - q3_st) / 20
+        else:
+            range3 = 1
+    elif (accuracy==2):
         range1 = abs(q1_end - q1_st) / 90
-    elif abs(q1_end - q1_st) >=90:
-        range1 = abs(q1_end - q1_st) / 45
-    else:
-        range1 = 1
-
-    if abs(q2_end - q2_st) >= 180:
         range2 = abs(q2_end - q2_st) / 90
-    elif abs(q2_end - q2_st) >=90:
-        range2= abs(q2_end - q2_st) / 45
-    else:
-        range2 = 1
-
-    if abs(q3_end - q3_st) >= 180:
         range3 = abs(q3_end - q3_st) / 90
-    elif abs(q3_end - q3_st) >= 90:
-        range3 = abs(q3_end - q3_st) / 45
-    else:
-        range3 = 1
 
-    range1 = math.floor(range1)
-    range2 = math.floor(range2)
-    range3 = math.floor(range3)
+    range1 = math.ceil(range1)
+    range2 = math.ceil(range2)
+    range3 = math.ceil(range3)
     x = []
     y = []
 
+    if l1==0:
+        q1_st=0;q1_end=1
+    if l2==0:
+        q2_st=0;q2_end=1
+    if l3==0:
+        q3_st=0;q3_end=1
 
     for i in range(int(q1_st), int(q1_end), range1):
         for j in range(int(q2_st), int(q2_end), range2):
@@ -75,7 +98,10 @@ def workspace():
     plt.plot([-1, 1], [0, 0], 'r', linewidth=2.0)
     plt.plot([0, 0], [-1, 1], 'r', linewidth=2.0)
     plt.grid(True, which='both')
-    plt.plot(x, y, "c.")
+    if (accuracy <= 2):
+        plt.plot(x, y, "co")
+    else:
+        plt.plot(x, y, "c.")
 
     plt.show()
 
