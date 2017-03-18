@@ -120,7 +120,7 @@ def workspace(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_
         a.plot(x, y, "c.")
 
     C = FigureCanvasTkAgg(f, window)
-    C.get_tk_widget().grid(row=0,column=7,columnspan=10,rowspan=300)
+    C.get_tk_widget().grid(row=0,column=7,columnspan=10,rowspan=200)
     toolbarframe=Frame(window)
     toolbarframe.grid(row=301, column=7,columnspan=10,sticky=W)
 

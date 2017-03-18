@@ -74,7 +74,7 @@ def inputgui(window):
     a.plot([0, 0], [-1, 1], 'r', linewidth=2.0)
     a.grid(True, which='both')
     C = FigureCanvasTkAgg(f, window)
-    C.get_tk_widget().grid(row=0, column=7, columnspan=10, rowspan=300)
+    C.get_tk_widget().grid(row=0, column=7, columnspan=10, rowspan=200)
     toolbarframe=Frame(window)
     toolbarframe.grid(row=301, column=7,columnspan=10,sticky=W)
     toolbar = NavigationToolbar2TkAgg(C, toolbarframe)
