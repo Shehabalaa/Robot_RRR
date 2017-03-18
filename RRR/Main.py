@@ -1,0 +1,6 @@
+from maingui import *
+
+gui()
+
+
+
