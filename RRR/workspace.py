@@ -24,7 +24,7 @@ def workspace(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_
     l2 = 0.0
     l3 = 0.0
     accuracy=v.get()
-
+    accuracy=int(accuracy)
     range1 = 1
     range2 = 1
     range3 = 1
