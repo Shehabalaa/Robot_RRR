@@ -114,10 +114,10 @@ def workspace(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_
     a.plot([-1, 1], [0, 0], 'r', linewidth=2.0)
     a.plot([0, 0], [-1, 1], 'r', linewidth=2.0)
     a.grid(True, which='both')
-    if (accuracy <= 2):
-        a.plot(x, y, "co")
-    else:
-        a.plot(x, y, "c.")
+    #if (accuracy <= 2):
+       # a.plot(x, y, "co")
+    #else:
+    a.plot(x, y, "c.")
 
     C = FigureCanvasTkAgg(f, window)
     C.get_tk_widget().grid(row=0,column=7,columnspan=10,rowspan=200)
