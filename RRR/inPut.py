@@ -1,21 +1,12 @@
-import matplotlib.pyplot as plt
-import math
 from tkinter import *
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
+
+
 from workspace import *
 
 def inputgui(window):
-    global q1_st
-    global q1_end
-    global q2_st
-    global q2_end
-    global q3_st
-    global q3_end
-    global l1
-    global l2
-    global l3
-    global accuracy
+
 
     q1 = Label(window, text='Q1 ',bg='lightcyan')
     q1.grid(row=0,sticky=W)

@@ -7,12 +7,6 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 
 
 
-
-
-def Rad(degree):
-    return degree * (math.pi / 180)
-
-
 def workspace(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_start_entry,q3_end_entry,l1_entry,l2_entry,l3_entry , v):
     q1_st = 0.0
     q2_st = 0.0
@@ -49,35 +43,50 @@ def workspace(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_
 
     if (accuracy == 1):
         if abs(q1_end - q1_st) >= 180:
-            range1 = abs(q1_end - q1_st) / 60
+            range1 = abs(q1_end - q1_st) / 60 +1
         elif abs(q1_end - q1_st) >= 90:
-            range1 = abs(q1_end - q1_st) / 45
+            range1 = abs(q1_end - q1_st) / 45 +1
         elif abs(q1_end - q1_st) >= 30:
-            range1 = abs(q1_end - q1_st) / 20
+            range1 = abs(q1_end - q1_st) / 20 +1
         else:
             range1 = 1
 
         if abs(q2_end - q2_st) >= 180:
-            range2 = abs(q2_end - q2_st) / 60
+            range2 = abs(q2_end - q2_st) / 60 +1
         elif abs(q2_end - q2_st) >= 90:
-            range2 = abs(q2_end - q2_st) / 45
+            range2 = abs(q2_end - q2_st) / 45 +1
         elif abs(q2_end - q2_st) >= 30:
-            range2 = abs(q2_end - q2_st) / 20
+            range2 = abs(q2_end - q2_st) / 20 +1
         else:
             range2 = 1
 
         if abs(q3_end - q3_st) >= 180:
-            range3 = abs(q3_end - q3_st) / 60
+            range3 = abs(q3_end - q3_st) / 60 +1
         elif abs(q3_end - q3_st) >= 90:
-            range3 = abs(q3_end - q3_st) / 45
+            range3 = abs(q3_end - q3_st) / 45 +1
         elif abs(q3_end - q3_st) >= 30:
-            range3 = abs(q3_end - q3_st) / 20
+            range3 = abs(q3_end - q3_st) / 20 +1
         else:
             range3 = 1
     elif (accuracy == 2):
-        range1 = abs(q1_end - q1_st) / 90
-        range2 = abs(q2_end - q2_st) / 90
-        range3 = abs(q3_end - q3_st) / 90
+        range1 = abs(q1_end - q1_st) / 90 +1
+        range2 = abs(q2_end - q2_st) / 90 +1
+        range3 = abs(q3_end - q3_st) / 90 +1
+    else:
+        if abs(q1_end - q1_st) >= 180:
+            range1 = abs(q1_end - q1_st) / 200 +1
+        else:
+            range1 = abs(q1_end - q1_st) / 100 +1
+
+        if abs(q2_end - q2_st) >= 180:
+            range2 = abs(q2_end - q2_st) / 200 +1
+        else:
+            range2 = abs(q2_end - q2_st) / 100 +1
+
+        if abs(q3_end - q3_st) >= 180:
+            range3 = abs(q3_end - q3_st) / 200 +1
+        else:
+            range3 = range3 = abs(q3_end - q3_st) / 100 +1
 
     range1 = math.ceil(range1)
     range2 = math.ceil(range2)
@@ -98,12 +107,12 @@ def workspace(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_
         q3_end = 1
 
 
-
     for i in range(int(q1_st), int(q1_end), range1):
         for j in range(int(q2_st), int(q2_end), range2):
             for k in range(int(q3_st), int(q3_end), range3):
-                x.append(l1 * math.cos(Rad(i)) + l2 * math.cos(Rad(i + j)) + l3 * math.cos(Rad(i + j + k)))
-                y.append(l1 * math.sin(Rad(i)) + l2 * math.sin(Rad(i + j)) + l3 * math.sin(Rad(i + j + k)))
+                x.append(float("{0:.2f}".format(l1 * math.cos(math.radians(i)) + l2 * math.cos(math.radians(i + j)) + l3 * math.cos(math.radians(i + j + k)))))
+                y.append(float("{0:.2f}".format(l1 * math.sin(math.radians(i)) + l2 * math.sin(math.radians(i + j)) + l3 * math.sin(math.radians(i + j + k)))))
+
 
 
 
@@ -117,6 +126,7 @@ def workspace(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_
     #if (accuracy <= 2):
        # a.plot(x, y, "co")
     #else:
+
     a.plot(x, y, "c.")
 
     C = FigureCanvasTkAgg(f, window)
