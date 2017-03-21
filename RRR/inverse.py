@@ -1,20 +1,21 @@
 from workspace import *
+import numpy as np
 
 def inverse():
 
     l1=20
     l2=10
-    l3 = 10
-    q1_st = 0
+    l3 = 5
+    q1_st = -math.pi
     q1_end = math.pi
     q2_st=-math.pi
     q2_end=math.pi
     q3_st=-math.pi
     q3_end = math.pi
-    a = 20
-    b = 20
+    a = 10
+    b = -10
 
-    theta = math.pi / 2
+    theta = math.pi/2
 
 
     '''
@@ -31,52 +32,20 @@ def inverse():
     alpha2=-1*alpha1 #alpha2 now radians
 
 
-    q11 = math.atan(abs(b1/a1))
-    q12 = math.atan(abs(b1/a1))
+
+
+    ''' al function tl3t mwgoda :D'''
+    q11 = np.arctan2(b1, a1) - alpha1
+    q12 = np.arctan2(b1, a1) - alpha2
     bast1=r*math.sin(alpha1)
     bast2=r*math.sin(alpha2)
     mkam1=(r*math.cos(alpha1))-l1
     mkam2=(r*math.cos(alpha2))-l1
 
 
-    q21=math.atan(abs(bast1/mkam1))
-    q22=math.atan(abs(bast2/mkam2))
+    q21=np.arctan2(bast1, mkam1)
+    q22=np.arctan2(bast2, mkam2)
     ''' CHECK DIVITION BY ZEROOOOOOOOOOOOOOOOOOOOOOOO'''
-
-
-
-    if bast1>0 and mkam1<0:
-        q21=math.pi-q21
-    elif bast1<0 and mkam1<0:
-        q21=math.pi+q21
-    elif bast1<0 and mkam1 >0:
-        q21=(2*math.pi)-q21
-
-    if bast2>0 and mkam2<0:
-        q22=math.pi-q22
-    elif bast2<0 and mkam2<0:
-        q22=math.pi+q22
-    elif bast2<0 and mkam2 >0:
-        q22=(2*math.pi)-q22
-
-
-
-
-
-
-    if b1>0 and a1<0:
-        q11 = math.pi - q11 - alpha1
-        q12 = math.pi - q12 - alpha2
-    elif b1<0 and a1 <0:
-        q11 = math.pi + q11 - alpha1
-        q12 = math.pi + q12 - alpha2
-    elif b1<0 and a1 >0:
-        q11 = 2*math.pi - q11  - alpha1
-        q12 = 2*math.pi - q12  - alpha2
-    else:
-        q11 -= alpha1
-        q12 -= alpha2
-
 
 
 
