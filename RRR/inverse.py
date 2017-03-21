@@ -96,18 +96,18 @@ def inverse():
     plt.grid(True, which='both')
 
 
-    while(q11>0 and q11> 2*math.pi ):
+    while(q11>0 and q11> math.pi ):
         q11-=2*math.pi
-    while(q21>0 and q21> 2*math.pi):
+    while(q21>0 and q21> math.pi):
         q21-=2*math.pi
-    while(q31> 0 and q31> 2*math.pi):
+    while(q31> 0 and q31> math.pi):
         q31 -= 2*math.pi
 
-    while(q12>0 and q12> 2*math.pi):
+    while(q12>0 and q12> math.pi):
         q12-=2*math.pi
-    while(q22>0 and q22> 2*math.pi):
+    while(q22>0 and q22> math.pi):
         q22-=2*math.pi
-    while(q32> 0 and q32> 2*math.pi):
+    while(q32> 0 and q32> math.pi):
         q32 -= 2*math.pi
 
     while(q11<0 and q11< -math.pi) :
