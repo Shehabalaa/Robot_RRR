@@ -26,25 +26,16 @@ def readinput(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_
     global l1
     global l2
     global l3
-    q1_st = q1_start_entry.get()
-    q1_end = q1_end_entry.get()
-    q2_st = q2_start_entry.get()
-    q2_end = q2_end_entry.get()
-    q3_st = q3_start_entry.get()
-    q3_end = q3_end_entry.get()
-    l1 = l1_entry.get()
-    l2 = l2_entry.get()
-    l3 = l3_entry.get()
-    q1_st = float(q1_st)
-    q2_st = float(q2_st)
-    q3_st = float(q3_st)
-    q1_end = float(q1_end)
-    q2_end = float(q2_end)
-    q3_end = float(q3_end)
-    l1 =float(l1)
-    l2 = float(l2)
-    l3= float(l3)
-    
+    q1_st = float(q1_start_entry.get())
+    q1_end = float(q1_end_entry.get())
+    q2_st = float(q2_start_entry.get())
+    q2_end = float(q2_end_entry.get())
+    q3_st = float(q3_start_entry.get())
+    q3_end = float(q3_end_entry.get())
+    l1 = float(l1_entry.get())
+    l2 = float(l2_entry.get())
+    l3 = float(l3_entry.get())
+
 ##################
     while((q1_st>0 and q1_st>180) or (q1_end>0 and q1_end>180) ):
         q1_st-=180
@@ -152,21 +143,27 @@ def workspace(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_
     y = []
 
 
-    if l1 == 0:
+    if l1 == 0 or q1_end-q1_st == 0:
         q1_st = 0;
         q1_end = 1
-    if l2 == 0:
+        range1=1
+    if l2 == 0  or q2_end-q2_st == 0 :
         q2_st = 0;
         q2_end = 1
-    if l3 == 0:
+        range2=1
+    if l3 == 0  or q3_end-q3_st == 0 :
         q3_st = 0;
         q3_end = 1
+        range3 = 1
 
-    
+
     if(q1_end<0):
         q1_end+=360
+    if (q2_end < 0):
+        q2_end += 360
+    if (q3_end < 0):
+        q3_end += 360
 
-  
     for i in range(int(q1_st), int(q1_end), range1):
         for j in range(int(q2_st), int(q2_end), range2):
             for k in range(int(q3_st),int(q3_end), range3):
