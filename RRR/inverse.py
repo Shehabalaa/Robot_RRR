@@ -2,6 +2,15 @@ from workspace import *
 import numpy as np
 
 def inverse():
+    global q1_st
+    global q2_st
+    global q3_st
+    global q1_end
+    global q2_end
+    global q3_end
+    global l1
+    global l2
+    global l3
 
     l1=20
     l2=10

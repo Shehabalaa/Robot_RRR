@@ -5,19 +5,28 @@ from tkinter import *
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
 
-global q1_st
-global q2_st
-global q3_st
-global q1_end
-global q2_end
-global q3_end
-global l1
-global l2
-global l3
+q1_st = 0.0
+q2_st = 0.0
+q3_st = 0.0
+q1_end = 0.0
+q2_end = 0.0
+q3_end = 0.0
+l1 = 0.0
+l2 = 0.0 
+l3 = 0.0
+
 
 
 def workspace(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_start_entry,q3_end_entry,l1_entry,l2_entry,l3_entry , v):
-
+    global q1_st
+    global q2_st
+    global q3_st
+    global q1_end
+    global q2_end
+    global q3_end
+    global l1
+    global l2
+    global l3
     accuracy=v.get()
     accuracy=int(accuracy)
     range1 = 1
