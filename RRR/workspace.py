@@ -16,8 +16,7 @@ l2 = 0.0
 l3 = 0.0
 
 
-
-def workspace(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_start_entry,q3_end_entry,l1_entry,l2_entry,l3_entry , v):
+def readinput(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_start_entry,q3_end_entry,l1_entry,l2_entry,l3_entry):
     global q1_st
     global q2_st
     global q3_st
@@ -27,11 +26,6 @@ def workspace(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_
     global l1
     global l2
     global l3
-    accuracy=v.get()
-    accuracy=int(accuracy)
-    range1 = 1
-    range2 = 1
-    range3 = 1
     q1_st = q1_start_entry.get()
     q1_end = q1_end_entry.get()
     q2_st = q2_start_entry.get()
@@ -50,7 +44,59 @@ def workspace(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_
     l1 =float(l1)
     l2 = float(l2)
     l3= float(l3)
+    
+##################
+    while((q1_st>0 and q1_st>180) or (q1_end>0 and q1_end>180) ):
+        q1_st-=180
+        q1_end-=180
+        
+    while((q1_st<0 and q1_st<-180) or (q1_end<0 and q1_end<-180)):
+        q1_st+=180
+        q1_end+=180
 
+###################
+        
+    while(q2_st>0 and q2_st>180 or q2_end>0 and q2_end>180):
+        q2_st-=180
+        q2_end-=180
+        
+    while(q2_st<0 and q2_st<-180 or q2_end<0 and q2_end<-180):
+        q2_st+=180
+        q2_end+=180
+
+
+####################
+        
+    while(q3_st>0 and q3_st>180 or q3_end>0 and q3_end>180):
+        q3_st-=180
+        q3_end-=180
+        
+    while(q3_st<0 and q3_st<-180 or q3_end<0 and q3_end<-180 ):
+        q3_st+=180
+        q3_end+=180
+
+
+####################
+
+
+
+def workspace(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_start_entry,q3_end_entry,l1_entry,l2_entry,l3_entry , v):
+    global q1_st
+    global q2_st
+    global q3_st
+    global q1_end
+    global q2_end
+    global q3_end
+    global l1
+    global l2
+    global l3
+    accuracy=v.get()
+    accuracy=int(accuracy)
+    range1 = 1
+    range2 = 1
+    range3 = 1
+    readinput(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_start_entry,q3_end_entry,l1_entry,l2_entry,l3_entry)
+    
     if (accuracy == 1):
         if abs(q1_end - q1_st) >= 180:
             range1 = abs(q1_end - q1_st) / 60 +1
@@ -116,10 +162,14 @@ def workspace(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_
         q3_st = 0;
         q3_end = 1
 
+    
+    if(q1_end<0):
+        q1_end+=360
 
+  
     for i in range(int(q1_st), int(q1_end), range1):
         for j in range(int(q2_st), int(q2_end), range2):
-            for k in range(int(q3_st), int(q3_end), range3):
+            for k in range(int(q3_st),int(q3_end), range3):
                 x.append(float("{0:.2f}".format(l1 * math.cos(math.radians(i)) + l2 * math.cos(math.radians(i + j)) + l3 * math.cos(math.radians(i + j + k)))))
                 y.append(float("{0:.2f}".format(l1 * math.sin(math.radians(i)) + l2 * math.sin(math.radians(i + j)) + l3 * math.sin(math.radians(i + j + k)))))
 

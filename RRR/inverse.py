@@ -11,7 +11,15 @@ def inverse():
     global l1
     global l2
     global l3
-
+    '''
+    q1_st=math.radisnd(q1_st)
+    q1_end=math.radisnd(q1_end)
+    q2_st=math.radisnd(q2_st)
+    q2_end=math.radisnd(q2_end)
+    q3_st=math.radisnd(q3_st)
+    q3_end=math.radisnd(q3_end)
+    '''
+    
     l1=20
     l2=10
     l3 = 5
