@@ -2,15 +2,9 @@ from workspace import *
 import numpy as np
 
 def inverse():
-    global q1_st
-    global q2_st
-    global q3_st
-    global q1_end
-    global q2_end
-    global q3_end
-    global l1
-    global l2
-    global l3
+    global q1_st,q2_st,q3_st 
+    global q1_end,q2_end,q3_end
+    global l1,l2,l3
     '''
     q1_st=math.radisnd(q1_st)
     q1_end=math.radisnd(q1_end)
@@ -20,19 +14,19 @@ def inverse():
     q3_end=math.radisnd(q3_end)
     '''
     
-    l1=20
+    l1=10
     l2=10
-    l3 = 5
+    l3 = 10
     q1_st = -math.pi
     q1_end = math.pi
     q2_st=-math.pi
     q2_end=math.pi
     q3_st=-math.pi
     q3_end = math.pi
-    a = 10
-    b = -10
+    a = 30
+    b = 0
 
-    theta = math.pi/2
+    theta = 0
 
 
     '''
