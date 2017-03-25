@@ -20,17 +20,18 @@ window = Tk()
 window.configure(background='lightcyan')
 window.minsize(width=820, height=550)
 window.maxsize(width=820, height=550)
-f = Figure(figsize=(5, 5), dpi=100,facecolor='lightblue')
+f = Figure(figsize=(5, 5), dpi=100, facecolor='lightblue')
 figure = f.add_subplot(111)
 figure.plot([-1, 1], [0, 0], 'r', linewidth=2.0)
 figure.plot([0, 0], [-1, 1], 'r', linewidth=2.0)
 figure.grid(True, which='both')
 C = FigureCanvasTkAgg(f, window)
-C.get_tk_widget().grid(row=0,column=43,rowspan=125)
-toolbarframe=Frame(window)
-toolbarframe.grid(row=126, column=43,sticky=W)
+C.get_tk_widget().grid(row=0, column=43, rowspan=125)
+toolbarframe = Frame(window)
+toolbarframe.grid(row=126, column=43, sticky=W)
 toolbar = NavigationToolbar2TkAgg(C, toolbarframe)
 toolbar.update()
+
 
 
 
@@ -116,13 +117,16 @@ def Jac(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_start_
     for i in range (int(q1_st),int(q1_end+1),1):
         for j in range (int (q2_st),int(q2_end+1),1):
             for k in range (int(q3_st),int(q3_end+1),1):
-            
-                J[0,0]=float("{0:.3f}".format(-(l1*math.sin(i*math.pi/180))-(l2*math.sin(((i+j)*math.pi/180)))-(l3*math.sin((i+j+k)*math.pi/180))))
-                J[0,1]=float("{0:.3f}".format(-(l2*math.sin((i+j)*math.pi/180)) -(l3*math.sin((i+j+k)*math.pi/180))))
-                J[0,2]=float("{0:.3f}".format(-(l3*math.sin((i+j+k)*math.pi/180))))
-                J[1,0]=float("{0:.3f}".format((l1*math.cos(i*math.pi / 180)) + (l2*math.cos((i+j)*math.pi/180)) + (l3*math.cos((i+j+k)*math.pi/180))))
-                J[1,1]=float("{0:.3f}".format((l2*math.cos((i+j)*math.pi/180)) + (l3*math.cos((i+j+k)*math.pi/180))))
-                J[1,2]=float("{0:.3f}".format(l3*math.cos((i+j+k)*math.pi/180)))
+                math1=l2*math.sin((i+j)*math.pi/180)
+                math2=l3*math.sin((i+j+k)*math.pi/180)
+                math11=l2*math.cos((i+j)*math.pi/180)
+                math22=l3*math.cos((i+j+k)*math.pi/180)
+                J[0,0]=float("{0:.3f}".format(-(l1*math.sin(i*math.pi/180))-(math1)-(math2)))
+                J[0,1]=float("{0:.3f}".format(-(math1) -(math2)))
+                J[0,2]=float("{0:.3f}".format(-(math2)))
+                J[1,0]=float("{0:.3f}".format((l1*math.cos(i*math.pi / 180)) + (math11) + (math22)))
+                J[1,1]=float("{0:.3f}".format((math11) + (math22)))
+                J[1,2]=float("{0:.3f}".format(math22))
                 J[2,0]=1.0
                 J[2,1]=1.0
                 J[2,2]=1.0
@@ -164,45 +168,61 @@ def inverse(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_st
     global l1
     global l2
     global l3
-    global figure
-    global C
-    m = Tk()
-    m.minsize(width=100, height=100)
-    m.maxsize(width=100, height=100)
-    w = Message(m, text="Robot can't reach that point \n with given input!!!")
-
-    
-    fraction=float()
+    f = Figure(figsize=(5, 5), dpi=100, facecolor='lightblue')
+    figure = f.add_subplot(111)
+    figure.plot([-1, 1], [0, 0], 'r', linewidth=2.0)
+    figure.plot([0, 0], [-1, 1], 'r', linewidth=2.0)
+    figure.grid(True, which='both')
+    C = FigureCanvasTkAgg(f, window)
+    C.get_tk_widget().grid(row=0, column=43, rowspan=125)
+    toolbarframe = Frame(window)
+    toolbarframe.grid(row=126, column=43, sticky=W)
+    toolbar = NavigationToolbar2TkAgg(C, toolbarframe)
+    toolbar.update()
+    figure.plot(x, y, "c.")
     readinput(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_start_entry,q3_end_entry,l1_entry,l2_entry,l3_entry)
+
+
+
+    fraction=float()
     a=float(x_entry.get())
     b=float(y_entry.get())
     theta = float(theta_entry.get())
-    q1_st=math.radians(q1_st)
-    q1_end=math.radians(q1_end)
-    q2_st=math.radians(q2_st)
-    q2_end=math.radians(q2_end)
-    q3_st=math.radians(q3_st)
-    q3_end=math.radians(q3_end)
-    while(theta>0 and theta > 180 ):
-        theta-=180
-    while(theta<0 and theta < 180):
-        theta+=180
+    q1_st = math.radians(q1_st)
+    q1_end = math.radians(q1_end)
+    q2_st=  math.radians(q2_st)
+    q2_end = math.radians(q2_end)
+    q3_st = math.radians(q3_st)
+    q3_end = math.radians(q3_end)
+
+
 
     theta=math.radians(theta)
-   
 
     '''
     calc
     '''
 
 
-    a1 = a-(l3*math.cos(theta))
-    b1 = b-(l3*math.sin(theta))
+    a1 = int(a-(l3*math.cos(theta)))
+    b1 = int(b-(l3*math.sin(theta)))
     r = math.sqrt((a1**2.0)+(b1**2.0))
+
+    if(l1 ==0 or r == 0):
+        m = Tk()
+        m.minsize(width=100, height=100)
+        m.maxsize(width=100, height=100)
+        w = Message(m, text="Robot can't reach that point \nwith given input !!!")
+        w.grid()
+        return
+
     fraction = ((l1**2.0)+(r**2.0)-(l2**2.0))/(2.0*l1*r)
 
-    
-    if(not(-1 <= fraction <=1) or l1 ==0 or r == 0):
+    if(not (-1 <= fraction <=1)):
+        m = Tk()
+        m.minsize(width=100, height=100)
+        m.maxsize(width=100, height=100)
+        w = Message(m, text="Robot can't reach that point \nwith given input !!!")
         w.grid()
         return
 
@@ -269,6 +289,8 @@ def inverse(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_st
             q32 += 2*math.pi
 
 
+    P=True
+
     if (q1_end>=q11 >= q1_st) and (q2_end>= q21 >= q2_st)  and (q3_end>=q31 >=q3_st):
         x1.append(0)
         x1.append(l1*math.cos(q11))
@@ -279,6 +301,7 @@ def inverse(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_st
         y1.append((l1*math.sin(q11))+(l2*math.sin(q11+q21)))
         y1.append((l1*math.sin(q11))+(l2*math.sin(q11+q21))+(l3*math.sin(q11+q21+q31)))
         figure.plot(x1,y1,"b")
+        P = False
 
     if (q1_end >= q12 >= q1_st) and (q2_end>= q22>=q2_st)  and  (q3_end>=q32>=q3_st):
         x2.append(0)
@@ -290,8 +313,15 @@ def inverse(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_st
         y2.append((l1*math.sin(q12))+(l2*math.sin(q12+q22)))
         y2.append((l1*math.sin(q12))+(l2*math.sin(q12+q22))+(l3*math.sin(q12+q22+q32)))
         figure.plot(x2,y2,"r")
+        P = False
 
     C.show()
+    if(P):
+        m = Tk()
+        m.minsize(width=100, height=100)
+        m.maxsize(width=100, height=100)
+        w = Message(m, text="Robot can't reach that point \nwith given input !!!")
+        w.grid()
 
 
 
@@ -372,7 +402,8 @@ def workspace(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_
     
     global x
     global y
-
+    x = []
+    y = []
 
     if l1 == 0 or q1_end-q1_st == 0:
         q1_st = 0;
@@ -400,12 +431,21 @@ def workspace(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_
             for k in range(int(q3_st),int(q3_end), range3):
                 x.append(float("{0:.2f}".format(l1 * math.cos(math.radians(i)) + l2 * math.cos(math.radians(i + j)) + l3 * math.cos(math.radians(i + j + k)))))
                 y.append(float("{0:.2f}".format(l1 * math.sin(math.radians(i)) + l2 * math.sin(math.radians(i + j)) + l3 * math.sin(math.radians(i + j + k)))))
-    
-    global figure
-    global C
+
+    f = Figure(figsize=(5, 5), dpi=100, facecolor='lightblue')
+    figure = f.add_subplot(111)
+    figure.plot([-1, 1], [0, 0], 'r', linewidth=2.0)
+    figure.plot([0, 0], [-1, 1], 'r', linewidth=2.0)
+    figure.grid(True, which='both')
+    C = FigureCanvasTkAgg(f, window)
+    C.get_tk_widget().grid(row=0, column=43, rowspan=125)
+    toolbarframe = Frame(window)
+    toolbarframe.grid(row=126, column=43, sticky=W)
+    toolbar = NavigationToolbar2TkAgg(C, toolbarframe)
+    toolbar.update()
     figure.plot(x, y, "c.")
-    C.draw()
-    
+    C.show()
+
    
 
 
