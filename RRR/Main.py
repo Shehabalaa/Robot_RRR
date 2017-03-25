@@ -204,9 +204,10 @@ def inverse(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_st
     '''
 
 
-    a1 = int(a-(l3*math.cos(theta)))
-    b1 = int(b-(l3*math.sin(theta)))
-    r = math.sqrt((a1**2.0)+(b1**2.0))
+    a1 = round((a-(l3*math.cos(theta))),8)
+    b1 = round((b-(l3*math.sin(theta))),8)
+    r = math.sqrt((a1**2)+(b1**2))
+    print(a1,b1)
 
     if(l1 ==0 or r == 0):
         m = Tk()
@@ -229,27 +230,28 @@ def inverse(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_st
     
     alpha1 = math.acos(fraction) # alpha1 now radians
     ''' CHECK MATH DOMAIN RANGEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE'''
-    alpha2=-1*alpha1 #alpha2 now radians
-
+    alpha2 = -1.0*alpha1 #alpha2 now radians
+    print(alpha1,alpha2)
 
 
 
     ''' al function tl3t mwgoda :D'''
-    q11 = np.arctan2(b1, a1) - alpha1
-    q12 = np.arctan2(b1, a1) - alpha2
+    q11 = round(np.arctan2(b1, a1) - alpha1,10)
+    q12 = round(np.arctan2(b1, a1) - alpha2,10)
     bast1=r*math.sin(alpha1)
     bast2=r*math.sin(alpha2)
     mkam1=(r*math.cos(alpha1))-l1
     mkam2=(r*math.cos(alpha2))-l1
-
-    q21=np.arctan2(bast1, mkam1)
-    q22=np.arctan2(bast2, mkam2)
-
-
-
+    
+    q21=round(np.arctan2(bast1, mkam1),10)
+    
+    q22=round(np.arctan2(bast2, mkam2),10)
 
     q31= theta - q11 - q21
     q32= theta - q12 - q22
+    
+    print(q11,q21,q31)
+
 
     '''
     points
@@ -291,7 +293,7 @@ def inverse(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_st
 
     P=True
 
-    if (q1_end>=q11 >= q1_st) and (q2_end>= q21 >= q2_st)  and (q3_end>=q31 >=q3_st):
+    if (q1_end+0.017>=q11 >= q1_st-0.017) and (q2_end+0.017>= q21 >= q2_st-0.017)  and (q3_end+0.017>=q31 >=q3_st-0.017):
         x1.append(0)
         x1.append(l1*math.cos(q11))
         x1.append((l1*math.cos(q11))+(l2*math.cos(q11+q21)))
@@ -426,9 +428,9 @@ def workspace(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_
     if (q3_end < 0):
         q3_end += 360
 
-    for i in range(int(q1_st), int(q1_end), range1):
-        for j in range(int(q2_st), int(q2_end), range2):
-            for k in range(int(q3_st),int(q3_end), range3):
+    for i in range(int(q1_st), int(q1_end)+1, range1):
+        for j in range(int(q2_st), int(q2_end)+1, range2):
+            for k in range(int(q3_st),int(q3_end)+1, range3):
                 x.append(float("{0:.2f}".format(l1 * math.cos(math.radians(i)) + l2 * math.cos(math.radians(i + j)) + l3 * math.cos(math.radians(i + j + k)))))
                 y.append(float("{0:.2f}".format(l1 * math.sin(math.radians(i)) + l2 * math.sin(math.radians(i + j)) + l3 * math.sin(math.radians(i + j + k)))))
 
