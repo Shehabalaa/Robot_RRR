@@ -18,14 +18,13 @@ x = []
 y = []
 window = Tk()
 window.configure(background='lightcyan')
-window.minsize(width=863, height=600)
-window.maxsize(width=863, height=600)
-
+window.minsize(width=820, height=550)
+window.maxsize(width=820, height=550)
 f = Figure(figsize=(5, 5), dpi=100,facecolor='lightblue')
-a = f.add_subplot(111)
-a.plot([-1, 1], [0, 0], 'r', linewidth=2.0)
-a.plot([0, 0], [-1, 1], 'r', linewidth=2.0)
-a.grid(True, which='both')
+figure = f.add_subplot(111)
+figure.plot([-1, 1], [0, 0], 'r', linewidth=2.0)
+figure.plot([0, 0], [-1, 1], 'r', linewidth=2.0)
+figure.grid(True, which='both')
 C = FigureCanvasTkAgg(f, window)
 C.get_tk_widget().grid(row=0,column=43,rowspan=125)
 toolbarframe=Frame(window)
@@ -92,8 +91,65 @@ def readinput(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_
 
 
 
+def Jac(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_start_entry,q3_end_entry,l1_entry,l2_entry,l3_entry,load1_entry,load2_entry,load3_entry):
+    global q1_st
+    global q2_st
+    global q3_st
+    global q1_end
+    global q2_end
+    global q3_end
+    global l1
+    global l2
+    global l3
+    readinput(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_start_entry,q3_end_entry,l1_entry,l2_entry,l3_entry)
+    load1=float(load1_entry.get())
+    load2=float(load2_entry.get())
+    load3=float(load3_entry.get())
+    xx = 0.0
+    yy = 0.0
+    zz = 0.0
 
+    p=np.array( [[load1],[load2],[load3]], dtype=float )
+    J=np.zeros((3,3), dtype=float)
+    temp = np.zeros((3,1), dtype=float)
 
+    for i in range (int(q1_st),int(q1_end+1),1):
+        for j in range (int (q2_st),int(q2_end+1),1):
+            for k in range (int(q3_st),int(q3_end+1),1):
+            
+                J[0,0]=float("{0:.3f}".format(-(l1*math.sin(i*math.pi/180))-(l2*math.sin(((i+j)*math.pi/180)))-(l3*math.sin((i+j+k)*math.pi/180))))
+                J[0,1]=float("{0:.3f}".format(-(l2*math.sin((i+j)*math.pi/180)) -(l3*math.sin((i+j+k)*math.pi/180))))
+                J[0,2]=float("{0:.3f}".format(-(l3*math.sin((i+j+k)*math.pi/180))))
+                J[1,0]=float("{0:.3f}".format((l1*math.cos(i*math.pi / 180)) + (l2*math.cos((i+j)*math.pi/180)) + (l3*math.cos((i+j+k)*math.pi/180))))
+                J[1,1]=float("{0:.3f}".format((l2*math.cos((i+j)*math.pi/180)) + (l3*math.cos((i+j+k)*math.pi/180))))
+                J[1,2]=float("{0:.3f}".format(l3*math.cos((i+j+k)*math.pi/180)))
+                J[2,0]=1.0
+                J[2,1]=1.0
+                J[2,2]=1.0
+            
+         
+                temp=np.dot(-J.T,p)
+            
+                if abs(float(temp[0,0])) > abs(xx): 
+                    xx = float(temp[0,0])
+           
+            
+                if abs(float(temp[1,0])) > abs(yy): 
+                    yy = float(temp[1,0])
+            
+            
+                if abs(float(temp[2,0])) > abs(zz) : 
+                    zz = float(temp[2,0])
+              
+      
+    QQ=np.array(([[xx],[yy],[zz]]), dtype=float)
+
+    m = Tk()
+    m.minsize(width=2, height=80)
+    m.maxsize(width=2, height=80)
+    w = Message(m, text="Maxloads\n"+str(xx)+'\n'+str(yy)+'\n'+str(zz)+'\n')
+    w.grid()
+    
 
 
 
@@ -108,8 +164,14 @@ def inverse(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_st
     global l1
     global l2
     global l3
-    global a
+    global figure
     global C
+    m = Tk()
+    m.minsize(width=100, height=100)
+    m.maxsize(width=100, height=100)
+    w = Message(m, text="Robot can't reach that point \n with given input!!!")
+
+    
     fraction=float()
     readinput(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_start_entry,q3_end_entry,l1_entry,l2_entry,l3_entry)
     a=float(x_entry.get())
@@ -132,13 +194,19 @@ def inverse(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_st
     '''
     calc
     '''
-    #if(not(-1 <= fraction <=1)):
-    #return
+
 
     a1 = a-(l3*math.cos(theta))
     b1 = b-(l3*math.sin(theta))
     r = math.sqrt((a1**2.0)+(b1**2.0))
     fraction = ((l1**2.0)+(r**2.0)-(l2**2.0))/(2.0*l1*r)
+
+    
+    if(not(-1 <= fraction <=1) or l1 ==0 or r == 0):
+        w.grid()
+        return
+
+    
     alpha1 = math.acos(fraction) # alpha1 now radians
     ''' CHECK MATH DOMAIN RANGEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE'''
     alpha2=-1*alpha1 #alpha2 now radians
@@ -210,7 +278,7 @@ def inverse(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_st
         y1.append(l1*math.sin(q11))
         y1.append((l1*math.sin(q11))+(l2*math.sin(q11+q21)))
         y1.append((l1*math.sin(q11))+(l2*math.sin(q11+q21))+(l3*math.sin(q11+q21+q31)))
-        a.plot(x1,y1,"b")
+        figure.plot(x1,y1,"b")
 
     if (q1_end >= q12 >= q1_st) and (q2_end>= q22>=q2_st)  and  (q3_end>=q32>=q3_st):
         x2.append(0)
@@ -221,10 +289,9 @@ def inverse(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_st
         y2.append(l1*math.sin(q12))
         y2.append((l1*math.sin(q12))+(l2*math.sin(q12+q22)))
         y2.append((l1*math.sin(q12))+(l2*math.sin(q12+q22))+(l3*math.sin(q12+q22+q32)))
-        a.plot(x2,y2,"g")
+        figure.plot(x2,y2,"r")
 
-    C.draw()
-    
+    C.show()
 
 
 
@@ -334,10 +401,10 @@ def workspace(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_
                 x.append(float("{0:.2f}".format(l1 * math.cos(math.radians(i)) + l2 * math.cos(math.radians(i + j)) + l3 * math.cos(math.radians(i + j + k)))))
                 y.append(float("{0:.2f}".format(l1 * math.sin(math.radians(i)) + l2 * math.sin(math.radians(i + j)) + l3 * math.sin(math.radians(i + j + k)))))
     
-    global a
+    global figure
     global C
-    a.plot(x, y, "c.")
-    C.show()
+    figure.plot(x, y, "c.")
+    C.draw()
     
    
 
@@ -419,7 +486,9 @@ def inputgui(window):
     x_entry.insert(0,'0')
     y_entry.insert(0,'0')
     theta_entry.insert(0,'0')
-
+    load1_entry.insert(0,'0')
+    load2_entry.insert(0,'0')
+    load3_entry.insert(0,'0')
 
     v = StringVar()
     low = Radiobutton(window, text='Low',variable = v ,value=1, bg='lightcyan')
@@ -439,7 +508,7 @@ def inputgui(window):
     button2.grid(row=50,column=0,columnspan=41,sticky=W)
     frame3 = Frame(window)
     frame3.grid(row=90,column=0,columnspan=41,sticky=W+S)
-    button3 = Button(frame3, text="MaxLoad",fg="red",font=('Helvetica', 24),command= lambda: workspace(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_start_entry,q3_end_entry,l1_entry,l2_entry,l3_entry), height=1, width=14)
+    button3 = Button(frame3, text="MaxLoad",fg="red",font=('Helvetica', 24),command= lambda: Jac(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_start_entry,q3_end_entry,l1_entry,l2_entry,l3_entry,load1_entry,load2_entry,load3_entry), height=1, width=14)
     button3.grid(row=90,column=0,columnspan=41,sticky=W+S)
     
 
