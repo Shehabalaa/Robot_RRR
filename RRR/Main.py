@@ -305,7 +305,7 @@ def inverse(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_st
         figure.plot(x1,y1,"b")
         P = False
 
-    if (q1_end >= q12 >= q1_st) and (q2_end>= q22>=q2_st)  and  (q3_end>=q32>=q3_st):
+    if (q1_end+0.017 >= q12 >= q1_st-0.017) and (q2_end+0.017>= q22>=q2_st-0.017)  and  (q3_end+0.017>=q32>=q3_st-0.017):
         x2.append(0)
         x2.append(l1*math.cos(q12))
         x2.append((l1*math.cos(q12))+(l2*math.cos(q12+q22)))
