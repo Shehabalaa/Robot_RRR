@@ -70,6 +70,22 @@ def Jac(window, q1_start_entry, q1_end_entry, q2_start_entry, q2_end_entry, q3_s
     global l3
     readinput(window, q1_start_entry, q1_end_entry, q2_start_entry, q2_end_entry, q3_start_entry, q3_end_entry,
               l1_entry, l2_entry, l3_entry)
+    if (q1_end < q1_st):
+        q1_st-= 360
+    if (q2_end < q2_st ):
+        q2_st -= 360
+    if (q3_end < q3_st ):
+        q3_st -= 360
+
+    if (q1_end < q1_st ):
+        q1_end += 360
+    if (q2_end < q2_st ):
+        q2_end += 360
+    if (q3_end < q3_st ):
+        q3_st += 360
+
+
+
     load1 = float(load1_entry.get())
     load2 = float(load2_entry.get())
     load3 = float(load3_entry.get())
@@ -200,8 +216,8 @@ def inverse(window, q1_start_entry, q1_end_entry, q2_start_entry, q2_end_entry, 
 
     q22 = round(np.arctan2(bast2, mkam2), 10)
 
-    q31 = theta - q11 - q21
-    q32 = theta - q12 - q22
+    q31 = round(theta - q11 - q21,8)
+    q32 = round(theta - q12 - q22,8)
 
     '''
     points
@@ -225,24 +241,49 @@ def inverse(window, q1_start_entry, q1_end_entry, q2_start_entry, q2_end_entry, 
     while (q32 > 0 and q32 > 2*math.pi):
         q32 -= 2 * math.pi
 
-    while (q11 < 0 and q11 < -2*math.pi):
+    while (q11 < 0 and q11 < -math.pi):
         q11 += 2 * math.pi
-    while (q21 < 0 and q21 < -2*math.pi):
+    while (q21 < 0 and q21 < -math.pi):
         q21 += 2 * math.pi
-    while (q31 < 0 and q31 < -2*math.pi):
+    while (q31 < 0 and q31 < -math.pi):
         q31 += 2 * math.pi
-
-    while (q12 < 0 and q12 < -2*math.pi):
+        
+    while (q12 < 0 and q12 < -math.pi):
         q12 += 2 * math.pi
-    while (q22 < 0 and q22 < -2*math.pi):
+    while (q22 < 0 and q22 < -math.pi):
         q22 += 2 * math.pi
-    while (q32 < 0 and q32 < -2*math.pi):
+    while (q32 < 0 and q32 < -math.pi):
         q32 += 2 * math.pi
 
-    P = True
 
-    if (q11_end + 0.017 >= q11 >= q11_st - 0.017) and (q22_end + 0.017 >= q21 >= q22_st - 0.017) and (
-                q3_end + 0.017 >= q31 >= q3_st - 0.017):
+    
+    if(q11_end > q11_st):
+        case1=(q11_end + 0.017 >= q11 >= q11_st - 0.017)
+        case2=(q11_end + 0.017 >= q12 >= q11_st - 0.017)
+    else:
+        case1= not (q11_st+0.017 >= q11 >= q11_end - 0.017)
+        case2= not (q11_st+0.017 >= q12 >= q11_end - 0.017)
+
+
+    
+    if(q22_end > q22_st):
+        case1=(q22_end + 0.017 >= q21 >= q22_st - 0.017) and case1
+        case2=(q22_end + 0.017 >= q22 >= q22_st - 0.017) and case2
+    else:
+        case1= not (q22_st+0.017 >= q21 >= q22_st - 0.017) and case1
+        case2= not (q22_st+0.017 >= q22 >= q22_st - 0.017) and case2
+        
+
+    if(q33_end > q33_st):
+        case1=(q22_end + 0.017 >= q31 >= q22_st - 0.017) and case1
+        case2=(q22_end + 0.017 >= q32 >= q22_st - 0.017) and case2
+    else:
+        case1= not (q33_st+0.017 >= q31 >= q33_end - 0.017) and case1
+        case2=  not (q33_st+0.017 >= q32 >= q33_end - 0.017) and case2
+        
+ 
+
+    if (case1):
         x1.append(0)
         x1.append(l1 * math.cos(q11))
         x1.append((l1 * math.cos(q11)) + (l2 * math.cos(q11 + q21)))
@@ -252,10 +293,10 @@ def inverse(window, q1_start_entry, q1_end_entry, q2_start_entry, q2_end_entry, 
         y1.append((l1 * math.sin(q11)) + (l2 * math.sin(q11 + q21)))
         y1.append((l1 * math.sin(q11)) + (l2 * math.sin(q11 + q21)) + (l3 * math.sin(q11 + q21 + q31)))
         figure.plot(x1, y1, "b")
-        P = False
+ 
 
-    if (q11_end + 0.017 >= q12 >= q11_st - 0.017) and (q2_end + 0.017 >= q22 >= q22_st - 0.017) and (
-                q3_end + 0.017 >= q32 >= q3_st - 0.017):
+
+    if (case2):
         x2.append(0)
         x2.append(l1 * math.cos(q12))
         x2.append((l1 * math.cos(q12)) + (l2 * math.cos(q12 + q22)))
@@ -265,10 +306,11 @@ def inverse(window, q1_start_entry, q1_end_entry, q2_start_entry, q2_end_entry, 
         y2.append((l1 * math.sin(q12)) + (l2 * math.sin(q12 + q22)))
         y2.append((l1 * math.sin(q12)) + (l2 * math.sin(q12 + q22)) + (l3 * math.sin(q12 + q22 + q32)))
         figure.plot(x2, y2, "r")
-        P = False
+
 
     C.show()
-    if (P):
+    
+    if (not case1 and not case2):
         m = Tk()
         m.minsize(width=100, height=100)
         m.maxsize(width=100, height=100)
