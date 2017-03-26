@@ -207,8 +207,8 @@ def inverse(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_st
     a1 = round((a-(l3*math.cos(theta))),8)
     b1 = round((b-(l3*math.sin(theta))),8)
     r = math.sqrt((a1**2)+(b1**2))
-    print(a1,b1)
 
+    
     if(l1 ==0 or r == 0):
         m = Tk()
         m.minsize(width=100, height=100)
@@ -250,8 +250,7 @@ def inverse(window,q1_start_entry,q1_end_entry,q2_start_entry,q2_end_entry,q3_st
     q31= theta - q11 - q21
     q32= theta - q12 - q22
     
-    print(q11,q21,q31)
-
+ 
 
     '''
     points
@@ -470,7 +469,7 @@ def inputgui(window):
     y.grid(row=32,column=0)
     theta = Label(window, text='theta',bg='lightcyan')
     theta.grid(row=33,column=0)
-    Q = Label(window, text='Q',bg='lightcyan')
+    Q = Label(window, text='P',bg='lightcyan')
     Q.grid(row=60,column=0)
     load = Label(window, text='(load)',bg='lightcyan')
     load.grid(row=61,column=0)
