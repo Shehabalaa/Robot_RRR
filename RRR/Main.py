@@ -297,6 +297,19 @@ def workspace(window, q1_start_entry, q1_end_entry, q2_start_entry, q2_end_entry
     readinput(window, q1_start_entry, q1_end_entry, q2_start_entry, q2_end_entry, q3_start_entry, q3_end_entry,
               l1_entry, l2_entry, l3_entry)
 
+    if (q1_end < q1_st):
+        q1_st-= 360
+    if (q2_end < q2_st ):
+        q2_st -= 360
+    if (q3_end < q3_st ):
+        q3_st -= 360
+
+    if (q1_end < q1_st ):
+        q1_end += 360
+    if (q2_end < q2_st ):
+        q2_end += 360
+    if (q3_end < q3_st ):
+        q3_st += 360
 
 
 
@@ -356,38 +369,14 @@ def workspace(window, q1_start_entry, q1_end_entry, q2_start_entry, q2_end_entry
     x = []
     y = []
 
-    if l1 == 0 or q1_end - q1_st == 0:
-        q1_st = 0;
-        q1_end = 1
-        range1 = 1
-    if l2 == 0 or q2_end - q2_st == 0:
-        q2_st = 0;
-        q2_end = 1
-        range2 = 1
-    if l3 == 0 or q3_end - q3_st == 0:
-        q3_st = 0;
-        q3_end = 1
-        range3 = 1
-
-    if (q1_end < q1_st):
-        q1_st-= 360
-    if (q2_end < q2_st ):
-        q2_st -= 360
-    if (q3_end < q3_st ):
-        q3_st -= 360
-
-    if (q1_end < q1_st ):
-        q1_end += 360
-    if (q2_end < q2_st ):
-        q2_end += 360
-    if (q3_end < q3_st ):
-        q3_st += 360
 
 
 
-    for i in range(int(q1_st), int(q1_end) + 1, range1):
-        for j in range(int(q2_st), int(q2_end) + 1, range2):
-            for k in range(int(q3_st), int(q3_end) + 1, range3):
+
+
+    for i in range(int(q1_st), int(q1_end)+1, range1):
+        for j in range(int(q2_st), int(q2_end)+1, range2):
+            for k in range(int(q3_st), int(q3_end)+1, range3):
                 x.append(float("{0:.2f}".format(
                     l1 * math.cos(math.radians(i)) + l2 * math.cos(math.radians(i + j)) + l3 * math.cos(
                         math.radians(i + j + k)))))
