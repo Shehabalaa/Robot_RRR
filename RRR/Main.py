@@ -213,9 +213,7 @@ def inverse(window, q1_start_entry, q1_end_entry, q2_start_entry, q2_end_entry, 
     mkam2 = (r * math.cos(alpha2)) - l1
 
     q21 = round(np.arctan2(bast1, mkam1), 10)
-
     q22 = round(np.arctan2(bast2, mkam2), 10)
-
     q31 = round(theta - q11 - q21,8)
     q32 = round(theta - q12 - q22,8)
 
@@ -241,22 +239,23 @@ def inverse(window, q1_start_entry, q1_end_entry, q2_start_entry, q2_end_entry, 
     while (q32 > 0 and q32 > 2*math.pi):
         q32 -= 2 * math.pi
 
-    while (q11 < 0 and q11 < -math.pi):
+    while (q11 < 0 ):
         q11 += 2 * math.pi
-    while (q21 < 0 and q21 < -math.pi):
+    while (q21 < 0 ):
         q21 += 2 * math.pi
-    while (q31 < 0 and q31 < -math.pi):
+    while (q31 < 0 ):
         q31 += 2 * math.pi
         
-    while (q12 < 0 and q12 < -math.pi):
+    while (q12 < 0 ):
         q12 += 2 * math.pi
-    while (q22 < 0 and q22 < -math.pi):
+    while (q22 < 0 ):
         q22 += 2 * math.pi
-    while (q32 < 0 and q32 < -math.pi):
+    while (q32 < 0 ):
         q32 += 2 * math.pi
 
-
     
+    case1=True
+    case2=False
     if(q11_end > q11_st):
         case1=(q11_end + 0.017 >= q11 >= q11_st - 0.017)
         case2=(q11_end + 0.017 >= q12 >= q11_st - 0.017)
@@ -267,16 +266,17 @@ def inverse(window, q1_start_entry, q1_end_entry, q2_start_entry, q2_end_entry, 
 
     
     if(q22_end > q22_st):
-        case1=(q22_end + 0.017 >= q21 >= q22_st - 0.017) and case1
-        case2=(q22_end + 0.017 >= q22 >= q22_st - 0.017) and case2
+        case1=((q22_end + 0.017 >= q21 >= q22_st - 0.017) and case1)
+        case2=((q22_end + 0.017 >= q22 >= q22_st - 0.017) and case2)
     else:
         case1= not (q22_st+0.017 >= q21 >= q22_st - 0.017) and case1
         case2= not (q22_st+0.017 >= q22 >= q22_st - 0.017) and case2
         
 
     if(q33_end > q33_st):
-        case1=(q22_end + 0.017 >= q31 >= q22_st - 0.017) and case1
-        case2=(q22_end + 0.017 >= q32 >= q22_st - 0.017) and case2
+        case1=((q33_end + 0.017 >= q31 >= q33_st - 0.017) and case1)
+        case2=((q33_end + 0.017 >= q32 >= q33_st - 0.017) and case2)
+        
     else:
         case1= not (q33_st+0.017 >= q31 >= q33_end - 0.017) and case1
         case2=  not (q33_st+0.017 >= q32 >= q33_end - 0.017) and case2
@@ -310,7 +310,7 @@ def inverse(window, q1_start_entry, q1_end_entry, q2_start_entry, q2_end_entry, 
 
     C.show()
     
-    if (not case1 and not case2):
+    if (not (case1 or case2)):
         m = Tk()
         m.minsize(width=100, height=100)
         m.maxsize(width=100, height=100)
@@ -434,7 +434,7 @@ def workspace(window, q1_start_entry, q1_end_entry, q2_start_entry, q2_end_entry
     C = FigureCanvasTkAgg(f, window)
     C.get_tk_widget().grid(row=0, column=43, rowspan=125)
     toolbarframe = Frame(window)
-    toolbarframe.grid(row=126, column=43, sticky=W)
+    toolbarframe.grid(row=126, column=43)
     toolbar = NavigationToolbar2TkAgg(C, toolbarframe)
     toolbar.update()
     figure.plot(x, y, "c.")
@@ -459,12 +459,12 @@ def inputgui(window):
     load = Label(window, text='(load)', bg='lightcyan')
     load.grid(row=61, column=0)
 
-    ll1 = Label(window, text='  L1 ', bg='lightcyan')
-    ll1.grid(row=3, column=0, sticky=W)
-    ll2 = Label(window, text='  L2 ', bg='lightcyan')
-    ll2.grid(row=4, column=0, sticky=W)
-    ll3 = Label(window, text='  L3 ', bg='lightcyan')
-    ll3.grid(row=5, column=0, sticky=W)
+    ll1 = Label(window, text='L1 ', bg='lightcyan')
+    ll1.grid(row=3, column=0)
+    ll2 = Label(window, text='L2 ', bg='lightcyan')
+    ll2.grid(row=4, column=0)
+    ll3 = Label(window, text='L3 ', bg='lightcyan')
+    ll3.grid(row=5, column=0)
 
     q1_start_entry = Entry(window, bg='white')
     q1_end_entry = Entry(window, bg='white')
@@ -483,7 +483,6 @@ def inputgui(window):
     load3_entry = Entry(window, bg='white')
 
     q1_start_entry.grid(row=0, column=1, columnspan=20, sticky=W)
-    q1_start_entry.focus_set()
     q1_end_entry.grid(row=0, column=21, columnspan=20, sticky=W)
     q2_start_entry.grid(row=1, column=1, columnspan=20, sticky=W)
     q2_end_entry.grid(row=1, column=21, columnspan=20, sticky=W)
@@ -538,7 +537,7 @@ def inputgui(window):
                                              y_entry, theta_entry), height=1, width=14)
     button2.grid(row=50, column=0, columnspan=41, sticky=W)
     frame3 = Frame(window)
-    frame3.grid(row=90, column=0, columnspan=41, sticky=W + S)
+    frame3.grid(row=90, column=0, columnspan=41, sticky=W)
     button3 = Button(frame3, text="MaxLoad", fg="red", font=('Helvetica', 24),
                      command=lambda: Jac(window, q1_start_entry, q1_end_entry, q2_start_entry, q2_end_entry,
                                          q3_start_entry, q3_end_entry, l1_entry, l2_entry, l3_entry, load1_entry,
