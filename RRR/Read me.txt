@@ -1,1 +1,10 @@
-user should always input angle ranges between 0 and 360
+user should always input angle ranges between 0 and 360 
+all angle units in degrees
+
+lengths in mm
+
+load (p)
+
+entered as  fx newton
+            fy newton
+	    m  newton . mm
